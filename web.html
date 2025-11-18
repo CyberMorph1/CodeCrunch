@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCrunch</title>
+    <link rel="stylesheet" href="pr.css">
+    <script src="https://kit.fontawesome.com/252032e5e8.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>CodeCrunch</h1>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <button onclick="showSection('html')"><i class="fab fa-html5"></i> HTML</button>
+            <button onclick="showSection('css')"><i class="fab fa-css3-alt"></i> CSS</button>
+            <button onclick="showSection('js')"><i class="fab fa-js"></i> JS</button>
+            <button onclick="showSection('output')"><i class="fas fa-play"></i> Output</button>
+            <button class="how-to-button" onclick="openModal()"><i class="fas fa-info-circle"></i> How to Use</button>
+        </div>
+        <div class="content">
+            <div class="code-editor" id="html-section">
+                <label><i class="fab fa-html5"></i> HTML</label>
+                <textarea id="html-code" onkeyup="run()"></textarea>
+            </div>
+            <div class="code-editor" id="css-section">
+                <label><i class="fab fa-css3-alt"></i> CSS</label>
+                <textarea id="css-code" onkeyup="run()"></textarea>
+            </div>
+            <div class="code-editor" id="js-section">
+                <label><i class="fab fa-js"></i> JavaScript</label>
+                <textarea id="js-code" onkeyup="run()"></textarea>
+            </div>
+            <div class="output-section" id="output-section">
+                <label><i class="fas fa-play"></i> Output</label>
+                <iframe id="output"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for instructions -->
+    <div id="howToModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>How to Use CodeCrunch</h2>
+            <p>This is a simple web-based compiler. You can use the following sections:</p>
+            <ul>
+                <li><strong>HTML:</strong> Write your HTML code here.</li>
+                <li><strong>CSS:</strong> Add styles to your HTML.</li>
+                <li><strong>JavaScript:</strong> Write your JavaScript code to make your page interactive.</li>
+                <li><strong>Output:</strong> See the results of your code execution here.</li>
+            </ul>
+            <p>Use the buttons on the left to switch between sections. The output will update as you type in the code editors.</p>
+        </div>
+    </div>
+
+    <script>
+        function run() {
+            let htmlCode = document.getElementById("html-code").value;
+            let cssCode = document.getElementById("css-code").value;
+            let jsCode = document.getElementById("js-code").value;
+            let output = document.getElementById("output");
+
+            output.contentWindow.document.body.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
+            output.contentWindow.eval(jsCode);
+        }
+
+        function showSection(section) {
+            const sections = document.querySelectorAll('.code-editor, .output-section');
+            sections.forEach(sec => sec.style.display = 'none');
+            document.getElementById(`${section}-section`).style.display = 'block';
+        }
+
+        function openModal() {
+            document.getElementById('howToModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('howToModal').style.display = 'none';
+        }
+
+        // Initialize with HTML section visible
+        showSection('html');
+    </script>
+</body>
+
+</html>
